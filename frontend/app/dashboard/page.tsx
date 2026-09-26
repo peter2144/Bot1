@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 export default function DashboardPage() {
   const [status, setStatus] = useState('Loading...');
   const [error, setError] = useState('');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bot1-3-4rsp.onrender.com';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bot1-1-glq2.onrender.com';
 
   useEffect(() => {
     async function checkBackend() {
@@ -15,14 +15,14 @@ export default function DashboardPage() {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
-        
+
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
 
         const data = await res.json();
         console.log('Response:', data);
-        
+
         if (data.ok === true) {
           setStatus('✅ Backend Online');
           setError('');
@@ -45,11 +45,11 @@ export default function DashboardPage() {
   return (
     <main style={{ maxWidth: 1000, margin: '40px auto', padding: 24 }}>
       <h1>Session Dashboard</h1>
-      
+
       <div style={{ padding: 16, background: status.includes('✅') ? '#d1fae5' : '#fee2e2', borderRadius: 8, marginBottom: 24, border: '1px solid #ccc' }}>
         <p style={{ fontSize: 18, fontWeight: 600 }}>{status}</p>
         {error && <p style={{ color: 'red', marginTop: 8 }}>Error: {error}</p>}
-        <p style={{ fontSize: 12, color: '#666', marginTop: 8 }}>API: {process.env.NEXT_PUBLIC_API_URL || 'Default (https://bot1-3-4rsp.onrender.com)'}</p>
+        <p style={{ fontSize: 12, color: '#666', marginTop: 8 }}>API: {process.env.NEXT_PUBLIC_API_URL || 'Default (https://bot1-1-glq2.onrender.com)'}</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
