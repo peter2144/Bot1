@@ -1,63 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function LoginPage() {
-  const [sessionName, setSessionName] = useState('Personal Test Session');
-  const [userId, setUserId] = useState('00000000-0000-0000-0000-000000000000');
-  const [qr, setQr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+export default function DashboardPage() {
+  const [status, setStatus] = useState('Disconnected');
 
-  async function createSession() {
-    setLoading(true);
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/session/create`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, sessionName }),
-      });
-
-      const data = await res.json();
-      const sessionId = data.session?.id;
-
-      if (sessionId) {
-        const qrRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/session/${sessionId}/qr`);
-        const qrData = await qrRes.json();
-        setQr(qrData.qr || null);
+  useEffect(() => {
+    async function loadHealth() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/health`);
+        const data = await res.json();
+        if (data.status === 'OK') setStatus('Backend online');
+      } catch (error) {
+        setStatus('Backend offline');
       }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
     }
-  }
+    loadHealth();
+  }, []);
 
   return (
-    <main style={{ maxWidth: 800, margin: '40px auto', padding: 24 }}>
-      <h1>Connect WhatsApp Session</h1>
+    <main style={{ maxWidth: 1000, margin: '40px auto', padding: 24 }}>
+      <h1>Session Dashboard</h1>
+      <p>Status: {status}</p>
 
-      <div style={{ display: 'grid', gap: 16 }}>
-        <label>
-          Session name
-          <input value={sessionName} onChange={(e) => setSessionName(e.target.value)} style={{ display: 'block', width: '100%', marginTop: 8, padding: 10 }} />
-        </label>
-
-        <label>
-          User ID
-          <input value={userId} onChange={(e) => setUserId(e.target.value)} style={{ display: 'block', width: '100%', marginTop: 8, padding: 10 }} />
-        </label>
-
-        <button onClick={createSession} disabled={loading} style={{ padding: '12px 20px', background: '#25d366', color: '#fff', border: 'none', borderRadius: 8 }}>
-          {loading ? 'Connecting...' : 'Create session'}
-        </button>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginTop: 24 }}>
+        <Card title="Connected Sessions" value="0" />
+        <Card title="Unread Messages" value="0" />
+        <Card title="Auto Reply" value="On" />
+        <Card title="Auto Read" value="On" />
       </div>
-
-      {qr ? (
-        <div style={{ marginTop: 32 }}>
-          <h3>QR Code</h3>
-          <img src={`data:image/png;base64,${qr}`} alt="WhatsApp QR" style={{ width: 300, height: 300, objectFit: 'contain', border: '1px solid #ddd' }} />
-        </div>
-      ) : null}
     </main>
+  );
+}
+
+function Card({ title, value }: { title: string; value: string }) {
+  return (
+    <div style={{ border: '1px solid #ddd', borderRadius: 12, padding: 20, background: '#fff' }}>
+      <div style={{ fontSize: 14, color: '#6b7280' }}>{title}</div>
+      <div style={{ fontSize: 28, fontWeight: 700, marginTop: 12 }}>{value}</div>
+    </div>
   );
 }
