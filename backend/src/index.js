@@ -16,9 +16,10 @@ dotenv.config();
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
+const frontendUrl = process.env.FRONTEND_URL || 'https://bot1-kz5u-4h1ohddxh-wa-bot1.vercel.app';
 
 app.use(helmet());
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: frontendUrl, credentials: true }));
 app.use(express.json({ limit: '2mb' }));
 app.use(pinoHttp({ logger }));
 
