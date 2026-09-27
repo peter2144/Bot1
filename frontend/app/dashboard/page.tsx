@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 export default function DashboardPage() {
   const [status, setStatus] = useState('Loading...');
   const [error, setError] = useState('');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bot1-ref6.onrender.com';
+  const apiUrl = 'https://bot1-9ah2.onrender.com';
 
   useEffect(() => {
     async function checkBackend() {
@@ -49,7 +49,7 @@ export default function DashboardPage() {
       <div style={{ padding: 16, background: status.includes('✅') ? '#d1fae5' : '#fee2e2', borderRadius: 8, marginBottom: 24, border: '1px solid #ccc' }}>
         <p style={{ fontSize: 18, fontWeight: 600 }}>{status}</p>
         {error && <p style={{ color: 'red', marginTop: 8 }}>Error: {error}</p>}
-        <p style={{ fontSize: 12, color: '#666', marginTop: 8 }}>API: {process.env.NEXT_PUBLIC_API_URL || 'Default (https://bot1-ref6.onrender.com)'}</p>
+        <p style={{ fontSize: 12, color: '#666', marginTop: 8 }}>API: {apiUrl}</p>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
