@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 export default function DashboardPage() {
   const [status, setStatus] = useState('Loading...');
   const [error, setError] = useState('');
-  const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://bot1-9ah2.onrender.com';
+  // Railway backend URL - replace with your actual Railway domain
+  const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://bot1-prod-xxxx.railway.app';
 
   useEffect(() => {
     async function checkBackend() {
