@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 export default function DashboardPage() {
   const [status, setStatus] = useState('Loading...');
   const [error, setError] = useState('');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bot1-9ah2.onrender.com';
+  const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://bot1-9ah2.onrender.com';
 
   useEffect(() => {
     async function checkBackend() {
